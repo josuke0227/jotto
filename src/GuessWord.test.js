@@ -28,7 +28,7 @@ describe("no words guessed", () => {
       guessedWords: [],
     });
   });
-  test("creates guessedWords table with one row", () => {
+  test.skip("creates guessedWords table with one row", () => {
     const guessedWordRows = findByTestAttr(wrapper, "guessed-word");
     expect(guessedWordRows).toHaveLength(1);
   });
@@ -44,7 +44,7 @@ describe("some words guessed", () => {
     });
   });
 
-  test("adds row to guessedWords table", () => {
+  test.skip("adds row to guessedWords table", () => {
     const guessedWordNodes = findByTestAttr(wrapper, "guessed-word");
     expect(guessedWordNodes).toHaveLength(2);
   });
@@ -67,15 +67,15 @@ describe("guess secret word", () => {
     submitButton.simulate("click", { preventDefault() {} });
   });
 
-  test("adds row to guessedWords table", () => {
+  test.skip("adds row to guessedWords table", () => {
     const guessedWordNodes = findByTestAttr(wrapper, "guessed-word");
     expect(guessedWordNodes).toHaveLength(3);
   });
-  test("input component should be hidden", () => {
+  test.skip("input component should be hidden", () => {
     const congrats = findByTestAttr(wrapper, "component-congrats");
     expect(congrats.text().length).toBeGreaterThan(0);
   });
-  test("does not display input component contents", () => {
+  test.skip("does not display input component contents", () => {
     const inputBox = findByTestAttr(wrapper, "input-box");
     expect(inputBox.exists()).toBe(false);
 
