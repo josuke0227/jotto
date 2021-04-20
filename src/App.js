@@ -3,7 +3,7 @@ import "./App.css";
 
 import Congrats from "./Congrats";
 import GuessedWords from "./GuessedWords";
-import Input from "./input";
+import Input from "./Input";
 import { getSecretWord } from "./actions/index";
 
 function App() {
