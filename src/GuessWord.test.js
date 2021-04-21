@@ -1,12 +1,19 @@
 import React from "react";
 import { mount } from "enzyme";
+import { Provider } from "react-redux";
 
 import App from "./App";
-import { findByTestAttr } from "../test/testUtils";
+import { findByTestAttr, storeFactory } from "../test/testUtils";
 
-const setup = (props = {}) => {
-  // TODO: apply state
-  const wrapper = mount(<App {...props} />);
+jest.mock("./actions");
+
+const setup = (initialState = {}) => {
+  const store = storeFactory(initialState);
+  const wrapper = mount(
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
 
   // Add value to input box
   const inputBox = findByTestAttr(wrapper, "input-box");
@@ -28,7 +35,7 @@ describe("no words guessed", () => {
       guessedWords: [],
     });
   });
-  test.skip("creates guessedWords table with one row", () => {
+  test("creates guessedWords table with one row", () => {
     const guessedWordRows = findByTestAttr(wrapper, "guessed-word");
     expect(guessedWordRows).toHaveLength(1);
   });
@@ -44,7 +51,7 @@ describe("some words guessed", () => {
     });
   });
 
-  test.skip("adds row to guessedWords table", () => {
+  test("adds row to guessedWords table", () => {
     const guessedWordNodes = findByTestAttr(wrapper, "guessed-word");
     expect(guessedWordNodes).toHaveLength(2);
   });
@@ -67,15 +74,15 @@ describe("guess secret word", () => {
     submitButton.simulate("click", { preventDefault() {} });
   });
 
-  test.skip("adds row to guessedWords table", () => {
+  test("adds row to guessedWords table", () => {
     const guessedWordNodes = findByTestAttr(wrapper, "guessed-word");
     expect(guessedWordNodes).toHaveLength(3);
   });
-  test.skip("input component should be hidden", () => {
+  test("input component should be hidden", () => {
     const congrats = findByTestAttr(wrapper, "component-congrats");
     expect(congrats.text().length).toBeGreaterThan(0);
   });
-  test.skip("does not display input component contents", () => {
+  test("does not display input component contents", () => {
     const inputBox = findByTestAttr(wrapper, "input-box");
     expect(inputBox.exists()).toBe(false);
 
