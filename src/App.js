@@ -6,6 +6,7 @@ import Congrats from "./Congrats";
 import GuessedWords from "./GuessedWords";
 import Input from "./Input";
 import { getSecretWord } from "./actions/index";
+import NewWrodButton from "./NewWordButton";
 
 function App() {
   const success = useSelector((state) => state.success);
