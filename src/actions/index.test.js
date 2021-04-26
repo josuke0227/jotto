@@ -12,7 +12,7 @@ describe("getSecretWord", () => {
     moxios.uninstall();
   });
 
-  test("secretWord is returned", () => {
+  test("secretWord is returned", async () => {
     const store = storeFactory();
     moxios.wait(() => {
       const requests = moxios.requests.mostRecent();
@@ -22,10 +22,8 @@ describe("getSecretWord", () => {
       });
     });
 
-    // update to test app in Redux / context sections
-    return store.dispatch(getSecretWord()).then(() => {
-      const secretWord = store.getState().secretWord;
-      expect(secretWord).toBe("party");
-    });
+    const mockSetSecretWord = jest.fn();
+    await getSecretWord(mockSetSecretWord);
+    expect(mockSetSecretWord).toHaveBeenCalledWith("party");
   });
 });
