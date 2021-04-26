@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect } from "react";
 import "./App.css";
 
 import Congrats from "./Congrats";
@@ -7,13 +6,26 @@ import GuessedWords from "./GuessedWords";
 import Input from "./Input";
 import { getSecretWord } from "./actions/index";
 
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "setSecretWord":
+      return { ...state, secretWord: action.payload };
+    default:
+      throw new Error(`Invalid action type: ${action.type}`);
+  }
+};
+
 function App() {
-  const [secretWord, setSecretWord] = useState("");
+  const [state, dispatch] = React.useReducer(reducer, {
+    secretWord: "",
+  });
 
-  const success = useSelector((state) => state.success);
-  const guessedWords = useSelector((state) => state.guessedWords);
+  const success = false;
+  const guessedWords = [];
 
-  const dispatch = useDispatch();
+  const setSecretWord = (secretWord) => {
+    dispatch({ type: "setSecretWord", payload: secretWord });
+  };
 
   useEffect(() => {
     getSecretWord(setSecretWord);
@@ -23,7 +35,7 @@ function App() {
     <div data-test="component-app" className="container">
       <h1>Jotto</h1>
       <Congrats success={success} />
-      <Input success={success} secretWord={secretWord} />
+      <Input success={success} secretWord={state.secretWord} />
       <GuessedWords guessedWords={guessedWords} />
     </div>
   );
