@@ -3,13 +3,18 @@ import "./App.css";
 
 import Congrats from "./Congrats";
 import GuessedWords from "./GuessedWords";
+import LanguagePicker from "./LanguagePicker";
+
 import Input from "./Input";
 import { getSecretWord } from "./actions/index";
+import languageContext from "./contexts/languageContext";
 
 const reducer = (state, action) => {
   switch (action.type) {
     case "setSecretWord":
       return { ...state, secretWord: action.payload };
+    case "setLanguage":
+      return { ...state, language: action.payload };
     default:
       throw new Error(`Invalid action type: ${action.type}`);
   }
@@ -18,6 +23,7 @@ const reducer = (state, action) => {
 function App() {
   const [state, dispatch] = React.useReducer(reducer, {
     secretWord: "",
+    language: "en",
   });
 
   const success = false;
@@ -25,6 +31,10 @@ function App() {
 
   const setSecretWord = (secretWord) => {
     dispatch({ type: "setSecretWord", payload: secretWord });
+  };
+
+  const setLanguage = (language) => {
+    dispatch({ type: "setLanguage", payload: language });
   };
 
   useEffect(() => {
@@ -44,10 +54,13 @@ function App() {
 
   return (
     <div data-test="component-app" className="container">
-      <h1>Jotto</h1>
-      <Congrats success={success} />
-      <Input success={success} secretWord={state.secretWord} />
-      <GuessedWords guessedWords={guessedWords} />
+      <languageContext.Provider value={state.language}>
+        <LanguagePicker setLanguage={setLanguage} />
+        <h1>Jotto</h1>
+        <Congrats success={success} />
+        <Input success={success} secretWord={state.secretWord} />
+        <GuessedWords guessedWords={guessedWords} />
+      </languageContext.Provider>
     </div>
   );
 }
